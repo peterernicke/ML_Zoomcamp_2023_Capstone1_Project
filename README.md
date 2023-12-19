@@ -68,11 +68,11 @@ To start a new training just use the following commands:
 - **cd Scripts**
 - **python3 train.py**
 
-The training will create some models in h5 format. You only need the last one which is automatically the best one. You can delete the rest. Be careful with the number of training epochs. On my machine I could use my NVIDIA graphic adapter. Therefor I use "epochs=100". In case you are not using GPU you should decrease to 10 or 20 epochs.
+The training will create some models in h5 format. You only need the last one which is automatically the best one. You can delete the rest. Be careful with the number of training epochs. On my machine I could use my NVIDIA graphic adapter. Therefor I use "epochs=100". In case you are not using GPU you should decrease to 10 or 20 epochs. **But keep in mind with only 10 epochs your model will have a very poor accuracy**. In my case I needed 72 epochs to get an accuracy of 72.5% on test data, which is not great but much better than what you can expect after 10-20 epochs.
 
 ## Script predict.py
 
-After the training process, which I mentioned before, you can test the model with the predict.py script. Before you can use predict.py to get predictions you need to convert your h5 model that was created in training. The predict.py script uses tflite models. You can use my utility function in convertModel.py to convert the model to the right format.
+After the training process, which I mentioned before, you can test the model with the predict.py script. Before you can use predict.py to get predictions you need to convert your h5 model that was created in training. The predict.py script uses tflite models. You can use my utility function in **convertModel.py** to convert the model to the right format.
 This loads the model "final-model.tflite" and serves it via web service. You can train your own model and convert it to tflite format. You just need to adapt the model_file variable. You can start the Flask application with this commands:
 
 - **pipenv shell**
@@ -83,7 +83,9 @@ This loads the model "final-model.tflite" and serves it via web service. You can
 
 You can test the model by providing an url to an image file. There is already an example image in the "predict-test.py" script. Feel free to change it to another image. The Flask application will download the image an save it as "aircraft.jpg" and return the predicted label of that aircraft. Open a new terminal an use this command:
 
-- **pipenv run python3 predict-test.py**
+- **pipenv shell**
+- **cd Scripts**
+- **python3 predict-test.py**
 
 ![](Images/predict-test.png)
 
@@ -105,7 +107,7 @@ The next screenshot show the information about "signature_def" which is the sign
 ![](Images/saved_model_cli.png)
 
 ### Step 1: Converting model to saved_model format
-During training model files in h5 format were created. For the prediction part of the previous chapter we needed the model in tflite format. But now we need the model in another format which is called "saved_model" format. The Utility script "convertModel.py" do the converting process for you.
+During training model files in h5 format were created. For the prediction part of the previous chapter we needed the model in tflite format. But now we need the model in another format which is called "saved_model" format. The Utility script "convertModel.py" do the converting process for you (if the model is not already converted).
 
 ### Step 2: Starting model serving component
 
@@ -131,7 +133,9 @@ I also used the Jupyter notebook to invoke the TF Serving model from Jupyter. Ev
 ### Step 4: Testing
 You can test the model by providing an url to an image file. There is another sample image in the "model_server_test.py" script. Again feel free to change it to another one. The Flask application will download the image an save it as "aircraft.jpg" and return the predicted label of that aircraft. Open a new terminal an use this command:
 
-- **pipenv run python3 model_server_test.py**
+- **pipenv shell**
+- **cd Scripts**
+- **python3 model_server_test.py**
 
 ![](Images/TFServingTest.png)
 
@@ -166,3 +170,9 @@ You will see the result in the terminal output. For every url the output contain
 It's convenient to track my progress using this README file with bold commands, which provides all necessary commands.
 There are some useful shortcuts in the Makefile, for example to create the virtual environment. In case you use my Makefile to create that venv, the virtual environment will live in the project folder ".venv". 
 In case you're interested in what I've done, feel free to inspect all the Jupyter notebooks in the "Notebook" folder. It's not necessary to see everything in action what is described here but maybe you'll get deeper insides.
+
+## Troubleshooting
+If there are any problems to create the virtual environment try the following steps. First delete "Pipfile", "Pipfile.lock" and "requirements.txt". Then type these two commands:
+
+- **make environment**
+- **pipenv install docker==7.0.0 Flask==3.0.0 grpcio==1.60.0 gunicorn==21.2.0 jupyter==1.0.0 matplotlib==3.8.2 numpy==1.26.2 pandas==2.1.4 Pillow==10.1.0 requests==2.31.0 scikit-learn==1.3.2 seaborn==0.13.0 tensorflow==2.15.0.post1 tflite-runtime==2.14.0 xgboost==2.0.2 tensorflow-serving-api==2.14.1**
