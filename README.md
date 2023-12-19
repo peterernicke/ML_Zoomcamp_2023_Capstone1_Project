@@ -44,7 +44,6 @@ The test dataset consists of 10 images per class. (Images are rescaled here for 
 
 ![](Images/test_dataset.png)
 
-
 This project provides a model to predict this 4 aircraft types. 
 There are two notebooks (/Notebook/notebook.ipynb and /Notebook/notebook_gpu.ipynb) that contain almost the same:
 - Data preparation 
@@ -69,10 +68,12 @@ To start a new training just use the following commands:
 - **cd Scripts**
 - **python3 train.py**
 
+The training will create some models in h5 format. You only need the last one which is automatically the best one. You can delete the rest. Be careful with the number of training epochs. On my machine I could use my NVIDIA graphic adapter. Therefor I use "epochs=100". In case you are not using GPU you should decrease to 10 or 20 epochs.
 
 ## Script predict.py
 
-After the training process, which I mentioned before, you can test the model with the predict.py script. This loads the model "final-model.tflite" and serves it via web service. You can train your own model and convert it to tflite format. You just need to adapt the model_file variable. You can start the Flask application with this commands:
+After the training process, which I mentioned before, you can test the model with the predict.py script. Before you can use predict.py to get predictions you need to convert your h5 model that was created in training. The predict.py script uses tflite models. You can use my utility function in convertModel.py to convert the model to the right format.
+This loads the model "final-model.tflite" and serves it via web service. You can train your own model and convert it to tflite format. You just need to adapt the model_file variable. You can start the Flask application with this commands:
 
 - **pipenv shell**
 - **cd Scripts**
@@ -103,7 +104,16 @@ The next screenshot show the information about "signature_def" which is the sign
 
 ![](Images/saved_model_cli.png)
 
-Before I could test anything I needed to start the TF Serving part. I used this docker command. In my case it didn't worked, so I need to exchange "$(pwd)" with the absolute path to the model. 
+### Step 1: Converting model to saved_model format
+During training model files in h5 format were created. For the prediction part of the previous chapter we needed the model in tflite format. But now we need the model in another format which is called "saved_model" format. The Utility script "convertModel.py" do the converting process for you.
+
+### Step 2: Starting model serving component
+
+Before I could test anything I needed to start the TF Serving part. You need to change directory to the "Model" folder.
+
+- **cd Model**
+
+I used this docker command. In case that it didn't worked, you need to exchange "$(pwd)" with the absolute path to the model. 
 
 - **docker run -it --rm -p 8500:8500 -v "$(pwd)/aircraft-model:/models/aircraft-model/1" -e MODEL_NAME=aircraft-model tensorflow/serving:2.14.1-gpu**
 
@@ -111,12 +121,14 @@ As mentioned before if you cannot use your NVIDIA graphic adapter for this, mayb
 
 - **docker run -it --rm -p 8500:8500 -v "$(pwd)/aircraft-model:/models/aircraft-model/1" -e MODEL_NAME=aircraft-model tensorflow/serving:2.14.1**
 
+### Step 3: Starting gateway
 I also used this notebook to invoke the TF Serving model from Jupyter. Everything was working fine so I could convert this notebook to Python scripts (Script folder). "model_server.py" provides the Flask application and you can start that app with same commands as seen before: 
 
 - **pipenv shell**
 - **cd Scripts**
 - **python3 model_server.py**
 
+### Step 4: Testing
 You can test the model by providing an url to an image file. There is another sample image in the "model_server_test.py" script. Again feel free to change it to another one. The Flask application will download the image an save it as "aircraft.jpg" and return the predicted label of that aircraft. Open a new terminal an use this command:
 
 - **pipenv run python3 model_server_test.py**
