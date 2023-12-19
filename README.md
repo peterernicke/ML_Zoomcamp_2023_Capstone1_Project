@@ -58,7 +58,7 @@ The model is provided as containerized web service that listens on port 9797.
 
 ## Script train.py
 
-This script starts the final training. There is the final neural network architecture as a result from all the tuning that was done in the Jupyter notebook. The final architecture is shown on the image below.
+This script starts the final training. There is the final neural network architecture as a result from all the tuning that was done in the Jupyter notebook. The final architecture is shown on the image below. For your information: The input images in the Jupyter notebooks have a shape of (150x150x3) as shown in the image, but the images that are used for the final training (in predict.py) have a shape of 299x299x3.
 
 ![](Images/improved_model.png)
 
