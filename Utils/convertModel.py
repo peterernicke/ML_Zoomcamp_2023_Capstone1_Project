@@ -9,6 +9,9 @@ def convertFromH5ToTflite(h5model):
     # Saving the model in tflite format
     with open('./../Model/final-model.tflite', 'wb') as f_out:
         f_out.write(tflite_model)
+    
+    with open('./../Deployment/final-model.tflite', 'wb') as f_out:
+        f_out.write(tflite_model)
 
 def convertFromH5ToSavedModelFormat(h5model):
     model = keras.models.load_model(h5model)

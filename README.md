@@ -109,7 +109,7 @@ During training model files in h5 format were created. For the prediction part o
 
 ### Step 2: Starting model serving component
 
-Before I could test anything I needed to start the TF Serving part. You need to change directory to the "Model" folder.
+Before I can test anything I need to start the TF Serving part. You need to change directory to the "Model" folder.
 
 - **cd Model**
 
@@ -122,7 +122,7 @@ As mentioned before if you cannot use your NVIDIA graphic adapter for this, mayb
 - **docker run -it --rm -p 8500:8500 -v "$(pwd)/aircraft-model:/models/aircraft-model/1" -e MODEL_NAME=aircraft-model tensorflow/serving:2.14.1**
 
 ### Step 3: Starting gateway
-I also used this notebook to invoke the TF Serving model from Jupyter. Everything was working fine so I could convert this notebook to Python scripts (Script folder). "model_server.py" provides the Flask application and you can start that app with same commands as seen before: 
+I also used the Jupyter notebook to invoke the TF Serving model from Jupyter. Everything was working fine so I could convert this notebook to Python scripts (Script folder). "model_server.py" provides the Flask application and you can start that app with same commands as seen before: 
 
 - **pipenv shell**
 - **cd Scripts**
@@ -163,14 +163,6 @@ You will see the result in the terminal output. For every url the output contain
 ![](Images/AWSLambdaTest.png)
 
 ## Reproducibility
-It's convenient to track my progress using the Makefile, which provides all the necessary commands:
-1. To set up the environment, use "make environment" or follow the listed commands.
-2. Inspect the Jupyter notebooks in the Notebook folder.
-3. Start model training of the final model with "make train", saving it in the Model folder.
-4. Deploy the web server in a Docker container listening on port 9797 with "make deploy".
-5. Test the deployment with "make test_deploy" using a sample aircraft image.
-
-Additional commands for managing the environment:
-- "make stop_docker" to halt running Docker containers.
-- "make clean" for environment cleanup
-- "make deactivate_environment" to deactivate the environment in the current terminal (in case I forget about the "deactivate" command)
+It's convenient to track my progress using this README file with bold commands, which provides all necessary commands.
+There are some useful shortcuts in the Makefile, for example to create the virtual environment. In case you use my Makefile to create that venv, the virtual environment will live in the project folder ".venv". 
+In case you're interested in what I've done, feel free to inspect all the Jupyter notebooks in the "Notebook" folder. It's not necessary to see everything in action what is described here but maybe you'll get deeper insides.
