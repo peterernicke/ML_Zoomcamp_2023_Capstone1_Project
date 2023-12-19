@@ -73,6 +73,11 @@ The training will create some models in h5 format. You only need the last one wh
 ## Script predict.py
 
 After the training process, which I mentioned before, you can test the model with the predict.py script. Before you can use predict.py to get predictions you need to convert your h5 model that was created in training. The predict.py script uses tflite models. You can use my utility function in **convertModel.py** to convert the model to the right format.
+
+- **pipenv shell**
+- **cd Utils**
+- **python3 convertModel.py**
+
 This loads the model "final-model.tflite" and serves it via web service. You can train your own model and convert it to tflite format. You just need to adapt the model_file variable. You can start the Flask application with this commands:
 
 - **pipenv shell**
