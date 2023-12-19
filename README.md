@@ -26,6 +26,13 @@ Then you have the following folder structure:
   - Data/test/Su57
   - Data/test/Tu160
 
+If you don't want to move images by your own, you can use a script for that. You only need to copy the 4 mentioned folders from the "crop" directory to the train folder and then use the script.
+
+- **cd Utils**
+- **python3 prepareTestFolder.py**
+
+When everything is done, you should get a feedback in the terminal with all moved files in their new directory.
+
 ## Data
 As you can see on the images above, they are neither standardized in format nor in size. I expect a challenging detection process. There is another challenge, because the dataset is very imbalanced. So this will also have an impact.
 
