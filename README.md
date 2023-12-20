@@ -6,12 +6,12 @@ Image created Microsoft Bing Image Creator (https://www.bing.com/images/create)
 </p>
 
 ## Problem Description
-The used dataset is from [Kaggle](https://www.kaggle.com/datasets/a2015003713/militaryaircraftdetectiondataset/data). It is a military aircraft detection dataset. This is a very huge dataset with more than 33.3k image files of 46 different military aircrafts. For this project I chose images from the "crop" folder which was still too much (>20.5k images). At the end I only used images from the A400M, C130, Su57, and Tu160 folder for this project. The goal is to detect the correct type of aircraft on image data. 
+The used dataset is from [Kaggle](https://www.kaggle.com/datasets/a2015003713/militaryaircraftdetectiondataset/data). It is a military aircraft detection dataset. This is a very huge dataset with more than 33.3k image files of 46 different military aircrafts. For this project I've chosen images from the "crop" folder which was still too much (>20.5k images). At the end I've only used images from the A400M, C130, Su57, and Tu160 folder for this project. The goal is to detect the correct type of aircraft on image data. 
 
 ![](Images/examples.jpg)
 
 ## First Steps
-As mentioned under the previous section the dataset is very huge. Therefor I cannot provide it here in this repository. To get that data go to [Kaggle](https://www.kaggle.com/datasets/a2015003713/militaryaircraftdetectiondataset/data) and login. Then you can download the 12 GB package of aircraft images. Unzip that package and go to the "crop" folder. There are a lot of image folders. Copy the folders of "A400M", "C130", "Su57", and "Tu160" to the Data/train folder. 
+As mentioned under the previous section the dataset is very huge. Therefore I cannot provide it here in this repository. To get that data go to [Kaggle](https://www.kaggle.com/datasets/a2015003713/militaryaircraftdetectiondataset/data) and login. Then you can download the 12 GB package of aircraft images. Unzip that package and go to the "crop" folder. There are a lot of image folders. Copy the complete folders of "A400M", "C130", "Su57", and "Tu160" to the Data/train project folder. 
 Then you have the following folder structure:
 
  - Data/train/A400M
@@ -19,7 +19,7 @@ Then you have the following folder structure:
  - Data/train/Su57
  - Data/train/Tu160
 
- Now we need to exclude a few images for the test set. To do that just cut 10 images of each aircraft folder and put them to the same folder under Data/test. So that at the end you also have the same structure under test.
+ Now you need to exclude a few images for the test set. To do that just cut 10 images of each aircraft folder and put them to the same folder under Data/test. So that at the end you also have the same structure under test.
 
   - Data/test/A400M
   - Data/test/C130
@@ -34,7 +34,7 @@ If you don't want to move images by your own, you can use a script for that. You
 When everything is done, you should get a feedback in the terminal with all moved files in their new directory.
 
 ## Data
-As you can see on the images above, they are neither standardized in format nor in size. I expect a challenging detection process. There is another challenge, because the dataset is very imbalanced. So this will also have an impact.
+As you can see on the images above, they are neither standardized in format nor in size. I expected a challenging detection process. There is another challenge, because the dataset is very imbalanced. So this also had an impact.
 
 <p align="center">
 <img src="Images/train_dataset.png" width="750" align="center">
@@ -52,9 +52,9 @@ There are two notebooks (/Notebook/notebook.ipynb and /Notebook/notebook_gpu.ipy
 - Tuning of multiple models 
 - Selecting the best model
 
-Why there are two similar notebooks? I realized that image classification on CPU is a quite time consuming task. Therefor I decided to setup an Ubuntu PC with GPU support. To not loose all the old results I just copied the notebook and rerun all Jupyter cells. Because of the increased speed this notebook contains some more experiments to tune the model.
+Why there are two similar notebooks? I realized that image classification on CPU is a quite time consuming task. Therefore I decided to setup an Ubuntu PC with GPU support. To not loose all the old results I've just copied the notebook and rerun all Jupyter notebook cells. Because of the increased speed this notebook contains some more experiments to tune the model.
 
-The model is provided as containerized web service that listens on port 9797.
+For the peer reviewing process you can just follow the steps here in this readme file. Everything should work as described in this order. This manual is very detailed and provides every single step. If you're not a peer reviewer or if you would like to dive deeper, feel free to also inspect the Jupyter notebooks. 
 
 ## Script train.py
 
@@ -97,7 +97,7 @@ You can test the model by providing an url to an image file. There is already an
 
 ## Model serving with TensorFlow Serving
 
-In this section I describe how I use TensorFlow Serving (TF Serving) to serve the model. Please note I use my GPU for this scenario, because TF Serving knows how to make use of it. Therefor I need to use a different TensorFlow Serving image tensorflow/serving:2.14.1-gpu. You can try to use tensorflow/serving:2.14.1, maybe it'll work as well. The following image show the architecture. There are two components the gateway which is a Flask application and the model which is served with TF Serving. Users can send an url of an aircraft image to the gateway. This part is implemented in the model_server_test.py script. The gateway do some preprocessing like resizing and sends the preprocessed image to the model and gets back the prediction. You can find the gateway implementation in the model_server.py file.
+In this section I describe how I used TensorFlow Serving (TF Serving) to serve the model. Please note I've used my GPU for this scenario, because TF Serving knows how to make use of it. Therefore I need to use a different TensorFlow Serving image tensorflow/serving:2.14.1-gpu. You can try to use tensorflow/serving:2.14.1, maybe it'll work as well. The following image show the architecture. There are two components the gateway which is a Flask application and the model which is served with TF Serving. Users can send an url of an aircraft image to the gateway. This part is implemented in the model_server_test.py script. The gateway do some preprocessing like resizing and sends the preprocessed image to the model and gets back the prediction. You can find the gateway implementation in the model_server.py file.
 
 <p align="center">
 <img src="Images/TFServing.png" width="750" align="center">
@@ -116,7 +116,7 @@ During training model files in h5 format were created. For the prediction part o
 
 ### Step 2: Starting model serving component
 
-Before I can test anything I need to start the TF Serving part. You need to change directory to the "Model" folder.
+Before you can test anything you need to start the TF Serving part. You need to change directory to the "Model" folder.
 
 - **cd Model**
 
