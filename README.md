@@ -65,7 +65,7 @@ This script starts the final training. There is the final neural network archite
 To start a new training just use the following commands:
 
 - **pipenv shell**
-- **cd Scripts**
+- **cd Script**
 - **python3 train.py**
 
 The training will create some models in h5 format. You only need the last one which is automatically the best one. You can delete the rest. Be careful with the number of training epochs. On my machine I could use my NVIDIA graphic adapter. Therefor I use "epochs=100". In case you are not using GPU you should decrease to 10 or 20 epochs. **But keep in mind with only 10 epochs your model will have a very poor accuracy**. In my case I needed 72 epochs to get an accuracy of 72.5% on test data, which is not great but much better than what you can expect after 10-20 epochs.
@@ -81,7 +81,7 @@ After the training process, which I mentioned before, you can test the model wit
 This loads the model "final-model.tflite" and serves it via web service. You can train your own model and convert it to tflite format. You just need to adapt the model_file variable. You can start the Flask application with this commands:
 
 - **pipenv shell**
-- **cd Scripts**
+- **cd Script**
 - **python3 predict.py**
 
 ![](Images/predict.png)
@@ -89,7 +89,7 @@ This loads the model "final-model.tflite" and serves it via web service. You can
 You can test the model by providing an url to an image file. There is already an example image in the "predict-test.py" script. Feel free to change it to another image. The Flask application will download the image an save it as "aircraft.jpg" and return the predicted label of that aircraft. Open a new terminal an use this command:
 
 - **pipenv shell**
-- **cd Scripts**
+- **cd Script**
 - **python3 predict-test.py**
 
 ![](Images/predict-test.png)
@@ -132,14 +132,14 @@ As mentioned before if you cannot use your NVIDIA graphic adapter for this, mayb
 I also used the Jupyter notebook to invoke the TF Serving model from Jupyter. Everything was working fine so I could convert this notebook to Python scripts (Script folder). "model_server.py" provides the Flask application and you can start that app with same commands as seen before: 
 
 - **pipenv shell**
-- **cd Scripts**
+- **cd Script**
 - **python3 model_server.py**
 
 ### Step 4: Testing
 You can test the model by providing an url to an image file. There is another sample image in the "model_server_test.py" script. Again feel free to change it to another one. The Flask application will download the image an save it as "aircraft.jpg" and return the predicted label of that aircraft. Open a new terminal an use this command:
 
 - **pipenv shell**
-- **cd Scripts**
+- **cd Script**
 - **python3 model_server_test.py**
 
 ![](Images/TFServingTest.png)
